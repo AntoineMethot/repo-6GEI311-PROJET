@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Today is November 13th 2024</h1>
+        
+        <!-- Current Weather Display -->
+        <div class="current-weather">
+            <div class="temp">
+                <span>-1°C</span>
+                <small>Clear</small>
+            </div>
+            <div class="details">
+                <p>Feels like: -2°C</p>
+                <p>High: 1°C | Low: -8°C</p>
+            </div>
+        </div>
+
+        <!-- Weekly Forecast -->
+        <div class="forecast">
+            <div class="day">
+                <p>Wed</p>
+                <img src="path/to/sunny-icon.png" alt="Sunny">
+                <p>1° | -7°</p>
+            </div>
+            <!-- Repeat similar blocks for each day of the week -->
+            <!-- Example for another day -->
+            <div class="day">
+                <p>Thu</p>
+                <img src="path/to/cloudy-icon.png" alt="Cloudy">
+                <p>3° | -5°</p>
+            </div>
+        </div>
+
+        <!-- Form for Date and Location -->
+        <div class="input-form">
+            <label for="date">Date:</label>
+            <input type="text" id="date" name="date">
+
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location">
+
+            <textarea placeholder="Suggested Activities"></textarea>
+            <button type="submit">Get Activities</button>
+        </div>
+    </div>
+</body>
+</html>
