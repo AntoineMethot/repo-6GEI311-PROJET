@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Today is November 13th 2024</h1>
+        <h1>Today is <span id="current-date"></span></h1>
         
         <!-- Current Weather Display -->
         <div class="current-weather">
@@ -50,5 +50,26 @@
             <button type="submit">Get Activities</button>
         </div>
     </div>
+    
+    <script>
+        // Function to get and display the current date
+        function displayCurrentDate() {
+            const dateElement = document.getElementById('current-date');
+    
+            // Get the current date
+            const today = new Date();
+    
+            // Format the date as "Month Day, Year" (e.g., November 17, 2024)
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDate = today.toLocaleDateString('en-US', options);
+    
+            // Display the date in the HTML
+            dateElement.textContent = formattedDate;
+        }
+    
+        // Call the function when the page loads
+        displayCurrentDate();
+    </script>
+    
 </body>
 </html>
