@@ -12,6 +12,7 @@
         <h1>Today is <span id="current-date"></span></h1>
         <h1>Weather for: {{city}}</span></h1>
         
+        
         {% if weather_data %}
             {% if 'error' in weather_data %}
                 <p>{{ weather_data.error }}</p>
