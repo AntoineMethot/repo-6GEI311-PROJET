@@ -15,12 +15,12 @@
         <!-- Current Weather Display -->
         <div class="current-weather">
             <div class="temp">
-                <span>-1°C</span>
-                <small>Clear</small>
+                <span>{{weather_data['main']['temp']}}°C</span>
+                <small>{{weather_data['weather'][0]['description']}}</small>
             </div>
             <div class="details">
-                <p>Feels like: -2°C</p>
-                <p>High: 1°C | Low: -8°C</p>
+                <p>Feels like: {{weather_data['main']['feels_like']}}°C</p>
+                <p>High: {{weather_data['main']['temp_max']}}°C | Low: {{weather_data['main']['temp_min']}}°C</p>
             </div>
         </div>
 
