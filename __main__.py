@@ -10,29 +10,27 @@ units = 'metric'
 
 @app.route("/")
 def Home():
-    get_Weather()
-    return render_template('index.html')
+    # Default city
+    city = 'Chicoutimi'
 
-@app.route("/get_Weather", methods=['GET'])
-def get_Weather():
-    # Get the city from the query parameter, defaulting to 'Chicoutimi'
-    city = request.args.get('city', 'Chicoutimi')
+    # If the form is submitted, get the city from the user input
+    if request.method == 'POST':
+        city = request.form.get('city', 'Chicoutimi')
 
-    # Construct the API URL with the correct parameters
-    apiURL = f'{BASE_URL}?q={city}&appid={API_KEY}&units=metric'  # Adjust 'units' as necessary
+    # Construct the API URL
+    api_url = f"{BASE_URL}?q={city}&appid={API_KEY}&units=metric"
 
-    # Send the GET request to OpenWeatherMap
-    response = requests.get(apiURL)
+    # Fetch the weather data
+    weather_data = None
+    response = requests.get(api_url)
 
-    # Check if the response is successful
     if response.status_code == 200:
-        # Parse the JSON response
+        # Parse the JSON response if successful
         weather_data = response.json()
+        print(weather_data)
 
-
-
-    else:
-        return jsonify({'error': 'Failed to fetch weather data'}), 500
+    # Pass the weather data and city name to the template
+    return render_template("index.html", city=city, weather_data=weather_data)
 
 
 if __name__ == '__main__':        ##Permet de lancer notre site web flask
