@@ -28,9 +28,7 @@ def get_Weather():
     if response.status_code == 200:
         # Parse the JSON response
         weather_data = response.json()
-        weather_data = json.load(weather_data)
 
-        print(weather_data[0])
 
 
     else:
@@ -38,4 +36,4 @@ def get_Weather():
 
 
 if __name__ == '__main__':        ##Permet de lancer notre site web flask
-    app.run(debug=True)
+    app.run(host='0.0.0.0',debug=True)
