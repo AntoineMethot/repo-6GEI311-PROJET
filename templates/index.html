@@ -12,45 +12,56 @@
         <h1>Today is <span id="current-date"></span></h1>
         <h1>Weather for: {{city}}</span></h1>
         
-        <!-- Current Weather Display -->
-        <div class="current-weather">
-            <div class="temp">
-                <span>{{weather_data['main']['temp']}}°C</span>
-                <small>{{weather_data['weather'][0]['description']}}</small>
-            </div>
-            <div class="details">
-                <p>Feels like: {{weather_data['main']['feels_like']}}°C</p>
-                <p>High: {{weather_data['main']['temp_max']}}°C | Low: {{weather_data['main']['temp_min']}}°C</p>
-            </div>
-        </div>
+        {% if weather_data %}
+            {% if 'error' in weather_data %}
+                <p>{{ weather_data.error }}</p>
+            {% else %}
+                <!-- Current Weather Display -->
+                <div class="current-weather">
+                    <div class="temp">
+                        <span>{{weather_data['main']['temp']}}°C</span>
+                        <small>{{weather_data['weather'][0]['description']}}</small>
+                    </div>
+                    <div class="details">
+                        <p>Feels like: {{weather_data['main']['feels_like']}}°C</p>
+                        <p>High: {{weather_data['main']['temp_max']}}°C | Low: {{weather_data['main']['temp_min']}}°C</p>
+                    </div>
+                </div>
 
-        <!-- Weekly Forecast -->
-        <div class="forecast">
-            <div class="day">
-                <p>Wed</p>
-                <img src="static\images\sun.png" alt="Sunny">
-                <p>1° | -7°</p>
-            </div>
-            <!-- Repeat similar blocks for each day of the week -->
-            <!-- Example for another day -->
-            <div class="day">
-                <p>Thu</p>
-                <img src="\static\images\cloudy.png" alt="Cloudy">
-                <p>3° | -5°</p>
-            </div>
-        </div>
+                <!-- Weekly Forecast -->
+                <div class="forecast">
+                    <div class="day">
+                        <p>Wed</p>
+                        <img src="static\images\sun.png" alt="Sunny">
+                        <p>1° | -7°</p>
+                    </div>
+                    <!-- Repeat similar blocks for each day of the week -->
+                    <!-- Example for another day -->
+                    <div class="day">
+                        <p>Thu</p>
+                        <img src="\static\images\cloudy.png" alt="Cloudy">
+                        <p>3° | -5°</p>
+                    </div>
+                </div>
+            {% endif %}
+        {% else %}
+            <p>No weather data available yet.</p>
+        {% endif %}
+            
 
         <!-- Form for Date and Location -->
-        <div class="input-form">
-            <label for="date">Date:</label>
-            <input type="date" id="date" name="date">
+         <form method="POST">
+            <div class="input-form">
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date">
 
-            <label for="city">City:</label>
-            <input type="text" id="city" name="city">
+                <label for="city">City:</label>
+                <input type="text" id="city" name="city">
 
-            <textarea placeholder="Suggested Activities"></textarea>
-            <button type="submit">Get Activities</button>
-        </div>
+                <textarea placeholder="Suggested Activities"></textarea>
+                <button type="submit">Get Activities</button>
+            </div>
+        </form>
     </div>
 
     <script>

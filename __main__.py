@@ -10,14 +10,16 @@ units = 'metric'
 
 @app.route("/", methods=['GET', 'POST'])
 def Home():
-    # Default city
-    city = request.form.get('city', 'Chicoutimi')
+
+    city = 'Chicoutimi'  # Default city
+    weather_data = None
+
+    if request.method == 'POST':
+        # Get the city name from the form input
+        city = request.form.get('city', 'Chicoutimi')
 
     # Construct the API URL
     api_url = f"{BASE_URL}?q={city}&appid={API_KEY}&units=metric"
-
-    # Fetch the weather data
-    weather_data = None
     response = requests.get(api_url)
 
     if response.status_code == 200:
@@ -25,7 +27,7 @@ def Home():
         weather_data = response.json()
         print(weather_data)
     else:
-        weather_data = {"error": "Could not fetch weather data. Please try again later."}
+        weather_data = {"error": "Could not fetch weather data. for the entered city. Please enter another city"}
 
     # Pass the weather data and city name to the template
     return render_template("index.html", city=city, weather_data=weather_data)
