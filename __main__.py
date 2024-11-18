@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, jsonify
 import requests
 import json
 
-app = Flask(__name__,template_folder='templates', static_folder='static') ##Instanciation de la classe flask
+app = Flask(__name__, template_folder='templates', static_folder='static') ##Instanciation de la classe flask
 
 API_KEY = '58902d1c73fc275d3d013f26d76de5bd'
 CURRENT_BASE_URL = 'https://api.openweathermap.org/data/2.5/weather'
