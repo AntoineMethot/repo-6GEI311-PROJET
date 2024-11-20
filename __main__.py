@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 import requests
 import json
+import sqlite3
 
 app = Flask(__name__, template_folder='templates', static_folder='static') ##Instanciation de la classe flask
 
@@ -9,6 +10,19 @@ CURRENT_BASE_URL = 'https://api.openweathermap.org/data/2.5/weather'
 FORECAST_BASE_URL = 'https://api.openweathermap.org/data/3.0/onecall'
 TESTER_BASE_URL = 'https://api.openweathermap.org/data/2.5/forecast/daily'
 units = 'metric'
+
+def get_activites():
+    conn = sqlite3.connect('Activities.db')
+    cursor = conn.cursor()
+    query = '''
+    SELECT * FROM Activities
+    '''
+
+    cursor.execute(query)
+    activities = cursor.fetchall()
+    conn.close()
+
+    return activities
 
 @app.route("/", methods=['GET', 'POST'])
 def Home():
@@ -44,9 +58,11 @@ def Home():
         print(forecast_data)
         print(FORECAST_response.status_code)
 
+    activities = get_activites()
+
 
     # Pass the weather data and city name to the template
-    return render_template("index.html", city=city, weather_data=weather_data)
+    return render_template("index.html", city=city, weather_data=weather_data, activities=activities)
 
 
 if __name__ == '__main__':        ##Permet de lancer notre site web flask
