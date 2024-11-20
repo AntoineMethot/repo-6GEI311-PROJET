@@ -7,6 +7,7 @@ app = Flask(__name__, template_folder='templates', static_folder='static') ##Ins
 API_KEY = '58902d1c73fc275d3d013f26d76de5bd'
 CURRENT_BASE_URL = 'https://api.openweathermap.org/data/2.5/weather'
 FORECAST_BASE_URL = 'https://api.openweathermap.org/data/3.0/onecall'
+TESTER_BASE_URL = 'https://api.openweathermap.org/data/2.5/forecast/daily'
 units = 'metric'
 
 @app.route("/", methods=['GET', 'POST'])
@@ -30,7 +31,8 @@ def Home():
     else:
         weather_data = {"error": "Could not fetch weather data. for the entered city. Please enter another city"}
 
-    FORECAST_api_url = f"{FORECAST_BASE_URL}?q={city}&appid={API_KEY}&units={units}&exclude=current,minutely,hourly"
+    #FORECAST_api_url = f"{FORECAST_BASE_URL}?q={city}&appid={API_KEY}&units={units}&exclude=current,minutely,hourly"
+    FORECAST_api_url = f"{TESTER_BASE_URL}?q={city}&cnt={7}&appid={API_KEY}"
     FORECAST_response= requests.get(FORECAST_api_url)
 
     if FORECAST_response.status_code == 200:
@@ -39,6 +41,7 @@ def Home():
         print(forecast_data)
     else:
         forecast_data = {"error": "Could not fetch forecast data. for the entered city. Please enter another city"}
+        print(forecast_data)
         print(FORECAST_response.status_code)
 
 
