@@ -49,12 +49,20 @@
             <p>No weather data available yet.</p>
         {% endif %}
             
+        <label for="activities">Activities:</label>
+        <div id="activities" class="activities-container">
+            {% for activity in activities %}
+                <div class="activity">{{ activity[1] }}</div>
+            {% endfor %}
+        </div>
 
         <!-- Form for Date and Location -->
          <form method="POST">
             <div class="input-form">
                 <label for="city">City:</label>
                 <input type="text" id="city" name="city">
+
+
 
                 <button type="submit">Get Activities</button>
             </div>
@@ -76,6 +84,10 @@
             // Display the date in the HTML
             dateElement.textContent = formattedDate;
         }
+
+        const textarea = document.getElementById('activities');
+        textarea.style.height = 'auto'; // Reset the height to auto to calculate the scroll height
+        textarea.style.height = textarea.scrollHeight + 'px'; // Adjust height based on content
     
         // Call the function when the page loads
         displayCurrentDate();
