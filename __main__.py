@@ -27,60 +27,68 @@ def get_activites():
 
 def recommend_activity(weather_data):
     activities = get_activites()
+    print(activities)
     current_time = datetime.now().hour
     current_month = datetime.now().month
-
-    if  5 <= current_month <= 10:
-        Summer=True
-        Winter=False
-    elif 1 <= current_month <= 4 or current_month == 11 or current_month == 12:
-        Summer=False
-        Winter=True
-    else:
-        Summer= False
-        Winter=False
-
-
-    if weather_data['main']['temp'] >= 15:
-        Hot=True
-        Cold=False
-
-    elif weather_data['main']['temp'] < 15:
-        Cold=True
-        Hot=False
-
-    if 'rain' in weather_data['weather']['description'] or 'thunderstorm' in weather_data['weather']['description']:
-        Raining =True
-    elif 'snow' in weather_data['weather']['description']:
-        Snowing = True
-
-    if  6 <= current_time < 17:
-        Dark=False
-        Light=True
-    elif 17 <= current_time < 6:
-        Dark=True
-        Light=False
-    else:
-        Dark=False
-        Light=True
-
-
     recommendations = []
+    if 'error' in weather_data:
+        recommendations.append('"error": "Could not fetch weather data. for the entered city. Please enter another city')
+    else:
+        if weather_data['main']['temp'] >= 10:
+            Summer=True
+            Winter=False
 
-    # Loop through the activities and check if they match the criteria
-    for activity in activities:
-        activity_name, in_summer, in_winter, when_rain, when_snow, when_hot, when_cold, when_dark, when_light = activity[1], activity[2], activity[3], activity[4], activity[5], activity[6], activity[7], activity[8], activity[9]
+        elif weather_data['main']['temp'] < 10:
+            Winter=True
+            Summer=False
+
+
+        if weather_data['main']['temp'] >= 15:
+            Hot=True
+            Cold=False
+
+        elif weather_data['main']['temp'] < 15:
+            Cold=True
+            Hot=False
+
+        if 'rain' in weather_data['weather'][0]['description'] or 'thunderstorm' in weather_data['weather'][0]['description']:
+            Raining =True
+            Snowing = False
+        elif 'snow' in weather_data['weather'][0]['description']:
+            Snowing = True
+            Raining = False
         
-        # Match conditions based on the flags
-        if ((Summer and in_summer) or (Winter and in_winter)) and \
-           ((Hot and when_hot) or (Cold and when_cold)) and \
-           ((Raining and when_rain) or (Snowing and when_snow)) and \
-           ((Light and when_light) or (Dark and when_dark)):
-            recommendations.append(activity_name)
-    
-    # Return the recommendations as JSON
-    return json.dumps({"recommended_activities": recommendations})
+        else:
+            Snowing = False
+            Raining = False
 
+        if  6 <= current_time < 17:
+            Dark=False
+            Light=True
+        elif 17 <= current_time < 6:
+            Dark=True
+            Light=False
+        else:
+            Dark=False
+            Light=True
+
+
+        # Loop through the activities and check if they match the criteria
+        for activity in activities:
+            activity_name, in_summer, in_winter, when_rain, when_snow, when_hot, when_cold, when_dark, when_light = activity[1], activity[2], activity[3], activity[4], activity[5], activity[6], activity[7], activity[8], activity[9]
+            print(activity)
+            print(Summer)
+            print(in_summer)
+            # Match conditions based on the flags
+            if ((Summer == in_summer) or (Winter == in_winter)) and \
+            ((Hot == when_hot) or (Cold == when_cold)) and \
+            ((Light == when_light) or (Dark == when_dark)):
+                recommendations.append(activity_name)
+        
+        # Return the recommendations as JSON
+        print(recommendations)
+        #return json.dumps({"recommended_activities": recommendations})
+    return recommendations
 
 @app.route("/", methods=['GET', 'POST'])
 def Home():
@@ -117,6 +125,7 @@ def Home():
         print(FORECAST_response.status_code)
 
     activities = recommend_activity(weather_data)
+    print(activities)
 
 
 
